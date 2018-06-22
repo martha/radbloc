@@ -14,11 +14,16 @@
 //   });
 // });
 
+var enabled = true;
+
 chrome.webRequest.onBeforeRequest.addListener(
   function(details) {
+    console.log(details);
     console.log("blocking:", details.url);
-    return {cancel: true };
+    if (enabled) {
+      return {redirectUrl: "http://www.wikipedia.com" };
+    }
   },
-  {urls: ["*://*.youtube.com/"]},
+  {urls: blocked_domains},
   ["blocking"]
 );
